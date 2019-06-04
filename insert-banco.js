@@ -1,8 +1,6 @@
-var pasta_projeto_site = 'Site_Bootstrap';
-
 var porta_serial = require('serialport');
 var leitura_recebida = porta_serial.parsers.Readline;
-var banco = require(`../${pasta_projeto_site}/app-banco`);
+var banco = require(`./app-banco`);
 
 require('events').EventEmitter.defaultMaxListeners = 15;
 
@@ -33,9 +31,9 @@ function iniciar_escuta() {
         console.error('Iniciando escuta do Arduino');
 
         parser.on('data', (dados) => {
-            console.error(`Recebeu novos dados do Arduino: ${dados}`);
             try {
                 var leitura = dados.split(',');
+                console.error(`Recebeu novos dados do Arduino: ${leitura[0]} \n  ${leitura[1]}`);
                 var silo1 = {
                     temp1: Number(((((Math.random() * ((0.6 - 0.8))) + 0.6).toFixed(2)) * Number(leitura[0])).toFixed(1)),
                     umid1: Number(((((Math.random() * ((0.75 - 0.81))) + 0.75).toFixed(2)) * Number(leitura[1])).toFixed(1)),
@@ -67,16 +65,16 @@ function iniciar_escuta() {
                     umid4: Number(((((Math.random() * ((0.15 - 0.19))) + 0.15).toFixed(2)) * Number(leitura[1])).toFixed(1))
                 }
                 var silo4 = {
-                    temp1: Number(((((Math.random() * ((0.6 - 0.8))) + 0.6).toFixed(2)) * Number(leitura[0])).toFixed(1)),
-                    umid1: Number(((((Math.random() * ((0.75 - 0.81))) + 0.75).toFixed(2)) * Number(leitura[1])).toFixed(1)),
-                    temp2: Number(((((Math.random() * ((0.35 - 0.62))) + 0.35).toFixed(2)) * Number(leitura[0])).toFixed(1)),
-                    umid2: Number(((((Math.random() * ((0.15 - 0.19))) + 0.15).toFixed(2)) * Number(leitura[1])).toFixed(1)),
-                    temp3: Number(((((Math.random() * ((0.35 - 0.62))) + 0.35).toFixed(2)) * Number(leitura[0])).toFixed(1)),
-                    umid3: Number(((((Math.random() * ((0.15 - 0.19))) + 0.15).toFixed(2)) * Number(leitura[1])).toFixed(1)),
-                    temp4: Number(((((Math.random() * ((0.35 - 0.62))) + 0.35).toFixed(2)) * Number(leitura[0])).toFixed(1)),
-                    umid4: Number(((((Math.random() * ((0.15 - 0.19))) + 0.15).toFixed(2)) * Number(leitura[1])).toFixed(1))
-                }
-                console.log(silo1, silo2, silo3, silo4);
+                        temp1: Number(((((Math.random() * ((0.6 - 0.8))) + 0.6).toFixed(2)) * Number(leitura[0])).toFixed(1)),
+                        umid1: Number(((((Math.random() * ((0.75 - 0.81))) + 0.75).toFixed(2)) * Number(leitura[1])).toFixed(1)),
+                        temp2: Number(((((Math.random() * ((0.35 - 0.62))) + 0.35).toFixed(2)) * Number(leitura[0])).toFixed(1)),
+                        umid2: Number(((((Math.random() * ((0.15 - 0.19))) + 0.15).toFixed(2)) * Number(leitura[1])).toFixed(1)),
+                        temp3: Number(((((Math.random() * ((0.35 - 0.62))) + 0.35).toFixed(2)) * Number(leitura[0])).toFixed(1)),
+                        umid3: Number(((((Math.random() * ((0.15 - 0.19))) + 0.15).toFixed(2)) * Number(leitura[1])).toFixed(1)),
+                        temp4: Number(((((Math.random() * ((0.35 - 0.62))) + 0.35).toFixed(2)) * Number(leitura[0])).toFixed(1)),
+                        umid4: Number(((((Math.random() * ((0.15 - 0.19))) + 0.15).toFixed(2)) * Number(leitura[1])).toFixed(1))
+                    }
+                    // console.log(silo1, silo2, silo3, silo4);
                 registrar_leitura(silo1, silo2, silo3, silo4);
             } catch (e) {
                 throw new Error(`Erro ao tratar os dados recebidos do Arduino: ${e}`);
